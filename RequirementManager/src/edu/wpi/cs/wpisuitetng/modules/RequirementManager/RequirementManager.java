@@ -33,15 +33,23 @@ public class RequirementManager implements IJanewayModule {
 		tabs.add(tab1);
 	}
 	
+	/**
+	 * Sets tab name in module
+	 * 
+	 * @return "Requirement Manager"	The name of the tab
+	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Requirement Manager";
 	}
 
+	/**
+	 * Allows the module to have multiple tabs
+	 * 
+	 * @return tabs	Returns the list of the tabs the module has
+	 */
 	@Override
 	public List<JanewayTabModel> getTabs() {
-		// TODO Auto-generated method stub
 		return tabs;
 	}
 

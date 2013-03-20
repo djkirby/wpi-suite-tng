@@ -14,8 +14,8 @@ import javax.swing.border.EtchedBorder;
 public class ToolbarView extends JPanel {
 
 	/**
-	 * Default Constructor for the ToolbarView. Is a cosntant size to above the tabs.
-	 * Creates a button that contains the actionlistener and creates the Requirements tab.
+	 * Default Constructor for the ToolbarView. Is a constant size to above the tabs.
+	 * Creates a button that contains the actionListener and creates the Requirements tab.
 	 */
 	public ToolbarView() {
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED)); // add a border so you can see the panel
@@ -26,6 +26,9 @@ public class ToolbarView extends JPanel {
 		JButton createButton = new JButton("Create Requirement");
 		createButton.addActionListener(new ActionListener() {
 			
+			/**
+			 * Tells the event controller to open the tab
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ViewEventController.getInstance().createRequirement();

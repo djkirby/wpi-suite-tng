@@ -11,11 +11,11 @@ public class ViewEventController {
 	 * Default constructor for ViewEventController.  Is protected to prevent instantiation.
 	 */
 	protected ViewEventController() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
-	 * Returns the singleton instance of the vieweventcontroller.
+	 * Returns the singleton instance of the ViewEventController.
 	 * @return The instance of this controller.
 	 */
 	public static ViewEventController getInstance() {
@@ -27,28 +27,27 @@ public class ViewEventController {
 
 	/**
 	 * Sets the main view to the given view.
-	 * @param main2 the main view to be set as active.
+	 * @param main2 The main view to be set as active.
 	 */
 	public void setMainView(MainView main2) {
 		main = main2;
 	}
 
 	/**
-	 * 
-	 * Sets the toolbarview to the given toolbar
-	 * @param tool2 the toolbar to be set as active.
+	 * Sets the ToolbarView to the given toolbar
+	 * @param tool2 The toolbar to be set as active
 	 */
 	public void setToolBar(ToolbarView tool2) {
 		tool = tool2;
 	}
 
 	/**
-	 * Opens a new tab for the creation of a requirement.
+	 * Opens a new tab for the creation of a requirement
 	 */
 	public void createRequirement() {
 		NewRequirementPanel newReq = new NewRequirementPanel();
 		main.addTab("Create Requirement", newReq);
-		main.invalidate(); //force the tabbedpane to redraw.
+		main.invalidate(); //force the tabbed pane to redraw.
 		main.repaint();
 	}
 }

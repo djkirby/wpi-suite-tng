@@ -9,6 +9,9 @@ import javax.swing.SpringLayout;
 
 public class OverviewPanel extends JPanel {
 
+	/**
+	 * Set the column names and data for the table in the overview tab
+	 */
 	public OverviewPanel()
 	{
 		SpringLayout overviewLayout = new SpringLayout();
