@@ -2,7 +2,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 
 import javax.swing.JTable;
 
-public class OverviewTable extends JTable {
+public class OverviewTable extends JTable 
+{
 	
 	/**
 	 * Creates a blank table in the overview tab
@@ -16,4 +17,5 @@ public class OverviewTable extends JTable {
 		
 		setFillsViewportHeight(true);
 	}
+	
 }

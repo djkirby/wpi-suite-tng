@@ -10,6 +10,7 @@ public class ViewEventController {
 	/**
 	 * Default constructor for ViewEventController.  Is protected to prevent instantiation.
 	 */
+
 	protected ViewEventController() {
 		
 	}
@@ -29,16 +30,16 @@ public class ViewEventController {
 	 * Sets the main view to the given view.
 	 * @param main2 The main view to be set as active.
 	 */
-	public void setMainView(MainView main2) {
-		main = main2;
+	public void setMainView(MainView mainview) {
+		main = mainview;
 	}
 
 	/**
 	 * Sets the ToolbarView to the given toolbar
 	 * @param tool2 The toolbar to be set as active
 	 */
-	public void setToolBar(ToolbarView tool2) {
-		tool = tool2;
+	public void setToolBar(ToolbarView toolbar) {
+		tool = toolbar;
 	}
 
 	/**
