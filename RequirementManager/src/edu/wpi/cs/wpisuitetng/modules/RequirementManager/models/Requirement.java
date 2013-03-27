@@ -1,18 +1,20 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Attachment;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTask;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTaskList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteCollection;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.SubRequirements;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 
 /**
@@ -53,21 +55,19 @@ public class Requirement extends AbstractModel {
 	private RequirementType type;
 	
 	/** subrequirements that must be completed before the current requirement is considered complete */
-	private List<Requirement> subRequirements;
+	private SubRequirements subRequirements;
 	
 	/** notes associated with the requirement */
-	private List<Note> notes;
+	private NoteCollection notes;
 	
 	/** iteration the requirement is assigned to */
 	private Iteration iteration;
 	
-	/** team members the requirement is assigned to 
-	 *  need to figure out the class of a user name, then use that instead of TeamMember 
-	 */
+	/** team members the requirement is assigned to */
 	private List<String> assignedTo; 
 	
 	/** development tasks associated with the requirement */
-	private List<DevelopmentTask> tasks;
+	private DevelopmentTaskList tasks;
 	
 	/** acceptance tests associated with the requirement */
 	private List<AcceptanceTest> tests;
@@ -92,10 +92,11 @@ public class Requirement extends AbstractModel {
 		activeStatus = true;
 		setIteration(new Iteration("Backlog"));
 		type = RequirementType.BLANK;
-		notes = new ArrayList<Note>();
-		tasks = new ArrayList<DevelopmentTask>();
+		setNotes(new NoteCollection());
+		setTasks(new DevelopmentTaskList());
 		tests = new ArrayList<AcceptanceTest>();
-		attachments = new ArrayList<Attachment>(); 
+		attachments = new ArrayList<Attachment>();
+		assignedTo = new LinkedList<String>();
 	}
 
 	/**
@@ -294,97 +295,18 @@ public class Requirement extends AbstractModel {
 		this.type = type;
 	}
 	
-	/**Getter for the sub-requirements
-	 * 
-	 * @return a list of the sub-requirements
+	/**Getter for subRequirements
+	 * @return the subRequirements
 	 */
-	public List<Requirement> getSubRequirements(){
+	public SubRequirements getSubRequirements() {
 		return subRequirements;
 	}
-	
-	/**Method to add a requirement to the list of sub-requirements
-	 * 
-	 * @param requirement Requirement to add
+
+	/**Setter for subRequirements
+	 * @param subRequirements the subRequirements to set
 	 */
-	public void addSubRequirement(Requirement subRequirement){
-		this.subRequirements.add(subRequirement);
-	}
-	
-	/** Method to remove a requirement to the list of sub-requirements
-	 * 
-	 * @param id The id of the requirement to be remove from the list of sub-requirements
-	 */
-	public void removeSubRequirement (int id){
-		// iterate through the list looking for the requirement to remove
-		for (int i=0; i < this.subRequirements.size(); i++){
-			if (subRequirements.get(i).getId() == id){
-				// remove the id
-				subRequirements.remove(i);
-				break;
-			}
-		}
-	}
-	
-	/** Getter for the notes
-	 * 
-	 * @return the list of notes associated with the requirement
-	 */
-	public List<Note> getNotes(){
-		return notes;
-	}
-	
-	/** Method to add a note to the list of notes
-	 * 
-	 * @param note The note to add to the list
-	 */
-	public void addNote(Note note){
-		notes.add(note);
-	}
-	
-	/** Method to remove a note from a list of notes
-	 * 
-	 * @param id The id of the note to be deleted
-	 */
-	public void removeNote(int id){
-		// iterate through the list looking for the note to remove
-		for (int i=0; i < this.notes.size(); i++){
-			if (notes.get(i).getId() == id){
-				// remove the id
-				notes.remove(i);
-				break;
-			}
-		}
-	}
-	
-	/** Getter for the list of development tasks
-	 * 
-	 * @return the list of development tasks
-	 */
-	public List<DevelopmentTask> getTasks(){
-		return tasks;
-	}
-	
-	/** Method to add a development task
-	 * 
-	 * @param task the task to be added to the list of development tasks
-	 */
-	public void addTask(DevelopmentTask task){
-		tasks.add(task);
-	}
-	
-	/** Method to remove a development task
-	 * 
-	 * @param 
-	 */
-	public void removeTask(int id){
-		// iterate through the list looking for the note to remove
-		for (int i=0; i < this.tasks.size(); i++){
-			if (tasks.get(i).getId() == id){
-				// remove the id
-				tasks.remove(i);
-				break;
-			}
-		}
+	public void setSubRequirements(SubRequirements subRequirements) {
+		this.subRequirements = subRequirements;
 	}
 	
 	/** Getter for AcceptanceTests
@@ -548,6 +470,34 @@ public class Requirement extends AbstractModel {
 	 */
 	public void setHistory(TransactionHistory history) {
 		this.history = history;
+	}
+
+	/**
+	 * @return the notes
+	 */
+	public NoteCollection getNotes() {
+		return notes;
+	}
+
+	/**
+	 * @param notes the notes to set
+	 */
+	public void setNotes(NoteCollection notes) {
+		this.notes = notes;
+	}
+
+	/**
+	 * @return the tasks
+	 */
+	public DevelopmentTaskList getTasks() {
+		return tasks;
+	}
+
+	/**
+	 * @param tasks the tasks to set
+	 */
+	public void setTasks(DevelopmentTaskList tasks) {
+		this.tasks = tasks;
 	}
 
 }
