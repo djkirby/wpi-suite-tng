@@ -1,13 +1,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Attachment;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTestList;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AttachmentList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTaskList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.NoteCollection;
@@ -15,6 +11,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.SubRequirements;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TeamMemberList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
 
 /**
@@ -64,16 +61,16 @@ public class Requirement extends AbstractModel {
 	private Iteration iteration;
 	
 	/** team members the requirement is assigned to */
-	private List<String> assignedTo; 
+	private TeamMemberList assignedTo; 
 	
 	/** development tasks associated with the requirement */
 	private DevelopmentTaskList tasks;
 	
 	/** acceptance tests associated with the requirement */
-	private List<AcceptanceTest> tests;
+	private AcceptanceTestList tests;
 	
 	/** attachments associated with the requirement */
-	private List<Attachment> attachments;
+	private AttachmentList attachments;
 	
 	/** history log for the requirement */
 	private TransactionHistory history;
@@ -94,9 +91,9 @@ public class Requirement extends AbstractModel {
 		type = RequirementType.BLANK;
 		setNotes(new NoteCollection());
 		setTasks(new DevelopmentTaskList());
-		tests = new ArrayList<AcceptanceTest>();
-		attachments = new ArrayList<Attachment>();
-		assignedTo = new LinkedList<String>();
+		setTests(new AcceptanceTestList());
+		setAttachments(new AttachmentList());
+		setAssignedTo(new TeamMemberList());
 	}
 
 	/**
@@ -309,67 +306,6 @@ public class Requirement extends AbstractModel {
 		this.subRequirements = subRequirements;
 	}
 	
-	/** Getter for AcceptanceTests
-	 * 
-	 * @return the list of acceptance tests for the requirement
-	 */
-	public List<AcceptanceTest> getTests(){
-		return tests;
-	}
-	
-	/** Method for adding an Acceptance Test
-	 * 
-	 * @param test the acceptance test to implement
-	 */
-	public void addTest(AcceptanceTest test){
-		tests.add(test);
-	}
-	
-	/** Method for removing an Acceptance Test
-	 * 
-	 * @param id the id of the test to remove
-	 */
-	public void removeTest(int id){
-		// iterate through the list looking for the note to remove
-		for (int i=0; i < this.tests.size(); i++){
-			if (tests.get(i).getId() == id){
-				// remove the id
-				tests.remove(i);
-				break;
-			}
-		}
-	}
-	
-	/** Getter for attachments
-	 * 
-	 * @return the list of attachments
-	 */
-	public List<Attachment> getAttachments(){
-		return attachments;
-	}
-	
-	/** Method to add an attachment
-	 * 
-	 * @param attachment Attachment to add
-	 */
-	public void addAttachment(Attachment attachment){
-		attachments.add(attachment);
-	}
-	
-	/** Method to remove an attachment
-	 * 
-	 * @param id ID of the attachment to be removed
-	 */
-	public void removeAttachment(int id){
-		// iterate through the list looking for the note to remove
-		for (int i=0; i < this.attachments.size(); i++){
-			if (attachments.get(i).getId() == id){
-				// remove the id
-				attachments.remove(i);
-				break;
-			}
-		}
-	}
 	/** Getter for Iteration. Currently deals in Strings, but will deal with Iterations in the future
 	 * 
 	 * @return a string representing the iteration it has been assigned to
@@ -386,22 +322,92 @@ public class Requirement extends AbstractModel {
 		this.iteration = iteration;
 	}
 	
-	/** Getter for AssignedTo
+	/** The getter for Transaction History
 	 * 
-	 * @return the list of strings representing the users for whom the requirement has been assigned to.
-	 */ 
-	public List<String> getAssignedTo() {
+	 * @return a TransdactionHistory for this requirement
+	 */
+	public TransactionHistory getHistory() {
+		return history;
+	}
+	
+	/** The Setter for TransactionHistory
+	 * 
+	 * @param history The history to assign to the requirement
+	 */
+	public void setHistory(TransactionHistory history) {
+		this.history = history;
+	}
+
+	/**
+	 * @return the notes
+	 */
+	public NoteCollection getNotes() {
+		return notes;
+	}
+
+	/**
+	 * @param notes the notes to set
+	 */
+	public void setNotes(NoteCollection notes) {
+		this.notes = notes;
+	}
+
+	/**
+	 * @return the tasks
+	 */
+	public DevelopmentTaskList getTasks() {
+		return tasks;
+	}
+
+	/**
+	 * @param tasks the tasks to set
+	 */
+	public void setTasks(DevelopmentTaskList tasks) {
+		this.tasks = tasks;
+	}
+
+	/**
+	 * @return the assignedTo
+	 */
+	public TeamMemberList getAssignedTo() {
 		return assignedTo;
 	}
 
-	/**Setter for assignedTo
-	 * 
-	 * @param assignedTo the list of strings representing the people who the requirement is assigned to.
+	/**
+	 * @param assignedTo the assignedTo to set
 	 */
-	public void setAssignedTo(List<String> assignedTo) {
+	public void setAssignedTo(TeamMemberList assignedTo) {
 		this.assignedTo = assignedTo;
 	}
 
+	/**
+	 * @return the tests
+	 */
+	public AcceptanceTestList getTests() {
+		return tests;
+	}
+
+	/**
+	 * @param tests the tests to set
+	 */
+	public void setTests(AcceptanceTestList tests) {
+		this.tests = tests;
+	}
+
+	/**
+	 * @return the attachments
+	 */
+	public AttachmentList getAttachments() {
+		return attachments;
+	}
+
+	/**
+	 * @param attachments the attachments to set
+	 */
+	public void setAttachments(AttachmentList attachments) {
+		this.attachments = attachments;
+	}
+	
 	/**Sets a flag in the requirement to indicate it's deleted */
 	public void remove() {
 		this.activeStatus = false;
@@ -455,49 +461,4 @@ public class Requirement extends AbstractModel {
 	public boolean isDeleted() {
 		return !activeStatus;
 	}
-	
-	/** The getter for Transaction History
-	 * 
-	 * @return a TransdactionHistory for this requirement
-	 */
-	public TransactionHistory getHistory() {
-		return history;
-	}
-	
-	/** The Setter for TransactionHistory
-	 * 
-	 * @param history The history to assign to the requirement
-	 */
-	public void setHistory(TransactionHistory history) {
-		this.history = history;
-	}
-
-	/**
-	 * @return the notes
-	 */
-	public NoteCollection getNotes() {
-		return notes;
-	}
-
-	/**
-	 * @param notes the notes to set
-	 */
-	public void setNotes(NoteCollection notes) {
-		this.notes = notes;
-	}
-
-	/**
-	 * @return the tasks
-	 */
-	public DevelopmentTaskList getTasks() {
-		return tasks;
-	}
-
-	/**
-	 * @param tasks the tasks to set
-	 */
-	public void setTasks(DevelopmentTaskList tasks) {
-		this.tasks = tasks;
-	}
-
 }

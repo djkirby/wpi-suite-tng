@@ -42,17 +42,19 @@ public class DevelopmentTaskList {
 	
 	/** Method to remove a development task
 	 * 
-	 * @param 
+	 * @param id The id of the task to be removed
+	 * @return True if the requirement was found and removed, false otherwise
 	 */
-	public void removeTask(int id){
+	public boolean removeTask(int id){
 		// iterate through the list looking for the note to remove
 		for (int i=0; i < this.tasks.size(); i++){
 			if (tasks.get(i).getId() == id){
 				// remove the id
 				tasks.remove(i);
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	

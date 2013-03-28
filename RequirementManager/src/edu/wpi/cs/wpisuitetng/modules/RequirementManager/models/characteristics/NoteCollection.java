@@ -41,16 +41,18 @@ public class NoteCollection {
 	/** Method to remove a note from a list of notes
 	 * 
 	 * @param id The id of the note to be deleted
+	 * @return true if the note was found and removed, false if the note was not found.
 	 */
-	public void removeNote(int id){
+	public boolean removeNote(int id){
 		// iterate through the list looking for the note to remove
 		for (int i=0; i < this.notes.size(); i++){
 			if (notes.get(i).getId() == id){
 				// remove the id
 				notes.remove(i);
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 	
 }

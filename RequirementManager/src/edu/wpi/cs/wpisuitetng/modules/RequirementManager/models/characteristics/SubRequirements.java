@@ -15,6 +15,14 @@ public class SubRequirements {
 	
 	private List<Requirement> subRequirements;
 	
+	public SubRequirements (){
+		this.subRequirements = new LinkedList<Requirement>();
+	}
+	
+	/**
+	 * 
+	 * @return the list of requirements
+	 */
 	public List<Requirement> getSubRequirements() {
 		return subRequirements;
 	}
@@ -25,14 +33,6 @@ public class SubRequirements {
 	 */
 	public void setSubRequirements(List<Requirement> subRequirements) {
 		this.subRequirements = subRequirements;
-	}
-	
-	/**
-	 * 
-	 * @return the list of requirements
-	 */
-	public SubRequirements (){
-		this.subRequirements = new LinkedList<Requirement>();
 	}
 	
 	/**Method to add a requirement to the list of sub-requirements
@@ -46,15 +46,17 @@ public class SubRequirements {
 	/** Method to remove a requirement to the list of sub-requirements
 	 * 
 	 * @param id The id of the requirement to be remove from the list of sub-requirements
+	 * @return true if the requirement was found and removed, false if the requirement was not found
 	 */
-	public void removeSubRequirement (int id){
+	public boolean removeSubRequirement (int id){
 		// iterate through the list looking for the requirement to remove
 		for (int i=0; i < this.subRequirements.size(); i++){
 			if (subRequirements.get(i).getId() == id){
 				// remove the id
 				subRequirements.remove(i);
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 }
