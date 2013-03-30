@@ -161,7 +161,10 @@ public class Requirement extends AbstractModel {
 	/**Setter for the id
 	 * 
 	 * @param id the id to set
+	 *
+	 *
 	 */
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -210,12 +213,15 @@ public class Requirement extends AbstractModel {
 	/**Setter for the status
 	 * 
 	 * @param status the status to set
+	 * @param created true if the requirement is being created
+	 * 		  added created to prevent a bug that occurs when the requirement 
+	 * 		  is first created and stores a transaction in the history
 	 */
-	public void setStatus(RequirementStatus status) {
-		if (status != this.status){
+	public void setStatus(RequirementStatus status, boolean created) {
+		if ((status != this.status) && !created){
 			String originalStatus = this.status.name();
 			String newStatus = status.name();
-			String message = ("Changed status from " + originalStatus + " to " + newStatus);
+			String message = ("Changed status of " + this.name + " from " + originalStatus + " to " + newStatus);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -283,12 +289,15 @@ public class Requirement extends AbstractModel {
 	/**Setter for the priority
 	 * 
 	 * @param priority the priority to set
+	 * @param created true if the requirement is being created
+	 * 		  added created to prevent a bug that occurs when the requirement 
+	 * 		  is first created and stores a transaction in the history
 	 */
-	public void setPriority(RequirementPriority priority) {
-		if (priority != this.priority){
+	public void setPriority(RequirementPriority priority, boolean created) {
+		if ((priority != this.priority) && !created){
 			String originalPriority = this.priority.name();
 			String newPriority = priority.name();
-			String message = ("Changed priority from " + originalPriority + " to " + newPriority);
+			String message = ("Changed priority of " + this.name + " from " + originalPriority + " to " + newPriority);
 			this.history.add(message);
 			UpdateRequirementController.getInstance().updateRequirement(this);
 		}
@@ -438,13 +447,16 @@ public class Requirement extends AbstractModel {
 	/** Setter for iteration. Currently deals with strings, but will deal with Iterations in the future.
 	 * 
 	 * @param iteration the iteration to assign the requirement to
+	 * @param created true if the requirement is being created
+	 * 		  added created to prevent a bug that occurs when the requirement 
+	 * 		  is first created and stores a transaction in the history
 	 */
-	public void setIteration(Iteration newIteration) {
+	public void setIteration(Iteration newIteration, boolean created) {
 		if(this.iteration == null) this.iteration = newIteration;
-		if (!this.iteration.equals(newIteration)){
+		if (!this.iteration.equals(newIteration) && !created){
 			String originalIteration = this.iteration.toString();
 			String newIterationString = newIteration.toString();
-			String message = ("Moved from " + originalIteration + " to " + newIterationString);
+			String message = ("Moved " + this.name + " from " + originalIteration + " to " + newIterationString);
 			this.history.add(message);
 		}
 		

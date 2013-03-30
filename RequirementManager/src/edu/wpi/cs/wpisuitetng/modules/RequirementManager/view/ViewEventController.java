@@ -19,6 +19,7 @@ public class ViewEventController {
 	private MainView main = null;
 	private ToolbarView toolbar = null;
 	private OverviewTable overviewTable = null;
+	private EditRequirementPanel editingPanel = null;
 	
 	/**
 	 * Sets the OverviewTable for the controller
@@ -78,6 +79,7 @@ public class ViewEventController {
 	{
 		EditRequirementPanel editPanel = new EditRequirementPanel(toEdit);
 		main.addTab("Edit Requirement", editPanel);
+		this.editingPanel = editPanel;
 		main.invalidate();
 		main.repaint();
 		main.setSelectedComponent(editPanel);
@@ -89,6 +91,7 @@ public class ViewEventController {
 	
 	public void removeTab(JComponent comp)
 	{
+		if(comp instanceof EditRequirementPanel) editingPanel = null;
 		main.remove(comp);
 	}
 
@@ -115,10 +118,13 @@ public class ViewEventController {
 	{
 		int[] selection = overviewTable.getSelectedRows();
 		
+		// Set to false to indicate the requirement is being newly created
+		boolean created = false;
+		
 		for(int i = 0; i < selection.length; i++)
 		{
 			Requirement toSendToBacklog = (Requirement)overviewTable.getValueAt(selection[i], 1);
-			toSendToBacklog.setIteration(new Iteration("Backlog"));
+			toSendToBacklog.setIteration(new Iteration("Backlog"), created);
 			UpdateRequirementController.getInstance().updateRequirement(toSendToBacklog);
 		}
 		
@@ -131,10 +137,15 @@ public class ViewEventController {
 	public void editSelectedRequirement()
 	{
 		int[] selection = overviewTable.getSelectedRows();
-		
+
 		if(selection.length != 1) return;
 		
 		Requirement toEdit = (Requirement)overviewTable.getValueAt(selection[0],1);
+		
+		if(editingPanel != null)
+		{
+			this.removeTab(editingPanel);
+		}
 		
 		editRequirement(toEdit);
 	}
