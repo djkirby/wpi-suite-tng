@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementManager.models;
 
 import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AcceptanceTestList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.AttachmentList;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.DevelopmentTaskList;
@@ -75,9 +76,6 @@ public class Requirement extends AbstractModel {
 	/** attachments associated with the requirement */
 	private AttachmentList attachments;
 	
-	/** history log for the requirement */
-	private TransactionHistory history;
-	
 	/**
 	 * Constructs a Requirement with default characteristics
 	 */
@@ -90,7 +88,7 @@ public class Requirement extends AbstractModel {
 		priority = RequirementPriority.BLANK;
 		estimate = actualEffort = 0;
 		activeStatus = true;
-		setIteration(new Iteration("Backlog"));
+		setIteration(new Iteration("Backlog"), true);
 		type = RequirementType.BLANK;
 		setNotes(new NoteCollection());
 		setTasks(new DevelopmentTaskList());
@@ -334,7 +332,7 @@ public class Requirement extends AbstractModel {
 	public void setSubRequirements(SubRequirements subRequirements) {
 		this.subRequirements = subRequirements;
 	}
-	
+
 	/** Getter for Iteration. Currently deals in Strings, but will deal with Iterations in the future
 	 * 
 	 * @return a string representing the iteration it has been assigned to
@@ -346,9 +344,20 @@ public class Requirement extends AbstractModel {
 	/** Setter for iteration. Currently deals with strings, but will deal with Iterations in the future.
 	 * 
 	 * @param iteration the iteration to assign the requirement to
+	 * @param created true if the requirement is being created
+	 * 		  added created to prevent a bug that occurs when the requirement 
+	 * 		  is first created and stores a transaction in the history
 	 */
-	public void setIteration(Iteration iteration) {
-		this.iteration = iteration;
+	public void setIteration(Iteration newIteration, boolean created) {
+		if(this.iteration == null) this.iteration = newIteration;
+		if (!this.iteration.equals(newIteration) && !created){
+			String originalIteration = this.iteration.toString();
+			String newIterationString = newIteration.toString();
+			String message = ("Moved " + this.name + " from " + originalIteration + " to " + newIterationString);
+			this.history.add(message);
+		}
+		
+		this.iteration = newIteration;
 	}
 	
 	/** The getter for Transaction History
@@ -396,20 +405,6 @@ public class Requirement extends AbstractModel {
 	}
 
 	/**
-	 * @return the assignedTo
-	 */
-	public TeamMemberList getAssignedTo() {
-		return assignedTo;
-	}
-
-	/**
-	 * @param assignedTo the assignedTo to set
-	 */
-	public void setAssignedTo(TeamMemberList assignedTo) {
-		this.assignedTo = assignedTo;
-	}
-
-	/**
 	 * @return the tests
 	 */
 	public AcceptanceTestList getTests() {
@@ -436,38 +431,12 @@ public class Requirement extends AbstractModel {
 	public void setAttachments(AttachmentList attachments) {
 		this.attachments = attachments;
 	}
-	/** Getter for Iteration. Currently deals in Strings, but will deal with Iterations in the future
-	 * 
-	 * @return a string representing the iteration it has been assigned to
-	 */
-	public Iteration getIteration() {
-		return iteration;
-	}
-
-	/** Setter for iteration. Currently deals with strings, but will deal with Iterations in the future.
-	 * 
-	 * @param iteration the iteration to assign the requirement to
-	 * @param created true if the requirement is being created
-	 * 		  added created to prevent a bug that occurs when the requirement 
-	 * 		  is first created and stores a transaction in the history
-	 */
-	public void setIteration(Iteration newIteration, boolean created) {
-		if(this.iteration == null) this.iteration = newIteration;
-		if (!this.iteration.equals(newIteration) && !created){
-			String originalIteration = this.iteration.toString();
-			String newIterationString = newIteration.toString();
-			String message = ("Moved " + this.name + " from " + originalIteration + " to " + newIterationString);
-			this.history.add(message);
-		}
-		
-		this.iteration = newIteration;
-	}
 	
 	/** Getter for AssignedTo
 	 * 
 	 * @return the list of strings representing the users for whom the requirement has been assigned to.
 	 */ 
-	public List<String> getAssignedTo() {
+	public TeamMemberList getAssignedTo() {
 		return assignedTo;
 	}
 
@@ -475,7 +444,7 @@ public class Requirement extends AbstractModel {
 	 * 
 	 * @param assignedTo the list of strings representing the people who the requirement is assigned to.
 	 */
-	public void setAssignedTo(List<String> assignedTo) {
+	public void setAssignedTo(TeamMemberList assignedTo) {
 		this.assignedTo = assignedTo;
 	}
 
@@ -535,5 +504,10 @@ public class Requirement extends AbstractModel {
 	 */
 	public boolean isDeleted() {
 		return !activeStatus;
+	}
+
+	public void copyFrom(Requirement updatedRequirement) {
+		// TODO Auto-generated method stub
+		
 	}
 }
