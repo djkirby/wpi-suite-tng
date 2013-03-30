@@ -48,6 +48,9 @@ public class Requirement extends AbstractModel {
 	/** a flag indicating if the requirement is active or deleted */
 	private boolean activeStatus;
 	
+	/** history of transactions of the requirement */
+	private TransactionHistory history;
+	
 	/** the type of the requirement */
 	private RequirementType type;
 	
@@ -209,7 +212,16 @@ public class Requirement extends AbstractModel {
 	 * @param status the status to set
 	 */
 	public void setStatus(RequirementStatus status) {
+		if (status != this.status){
+			String originalStatus = this.status.name();
+			String newStatus = status.name();
+			String message = ("Changed status from " + originalStatus + " to " + newStatus);
+			this.history.add(message);
+			UpdateRequirementController.getInstance().updateRequirement(this);
+		}
+
 		this.status = status;
+		
 	}
 
 	/**Getter for the description
@@ -273,6 +285,14 @@ public class Requirement extends AbstractModel {
 	 * @param priority the priority to set
 	 */
 	public void setPriority(RequirementPriority priority) {
+		if (priority != this.priority){
+			String originalPriority = this.priority.name();
+			String newPriority = priority.name();
+			String message = ("Changed priority from " + originalPriority + " to " + newPriority);
+			this.history.add(message);
+			UpdateRequirementController.getInstance().updateRequirement(this);
+		}
+		
 		this.priority = priority;
 	}
 	
@@ -407,7 +427,46 @@ public class Requirement extends AbstractModel {
 	public void setAttachments(AttachmentList attachments) {
 		this.attachments = attachments;
 	}
+	/** Getter for Iteration. Currently deals in Strings, but will deal with Iterations in the future
+	 * 
+	 * @return a string representing the iteration it has been assigned to
+	 */
+	public Iteration getIteration() {
+		return iteration;
+	}
+
+	/** Setter for iteration. Currently deals with strings, but will deal with Iterations in the future.
+	 * 
+	 * @param iteration the iteration to assign the requirement to
+	 */
+	public void setIteration(Iteration newIteration) {
+		if(this.iteration == null) this.iteration = newIteration;
+		if (!this.iteration.equals(newIteration)){
+			String originalIteration = this.iteration.toString();
+			String newIterationString = newIteration.toString();
+			String message = ("Moved from " + originalIteration + " to " + newIterationString);
+			this.history.add(message);
+		}
+		
+		this.iteration = newIteration;
+	}
 	
+	/** Getter for AssignedTo
+	 * 
+	 * @return the list of strings representing the users for whom the requirement has been assigned to.
+	 */ 
+	public List<String> getAssignedTo() {
+		return assignedTo;
+	}
+
+	/**Setter for assignedTo
+	 * 
+	 * @param assignedTo the list of strings representing the people who the requirement is assigned to.
+	 */
+	public void setAssignedTo(List<String> assignedTo) {
+		this.assignedTo = assignedTo;
+	}
+
 	/**Sets a flag in the requirement to indicate it's deleted */
 	public void remove() {
 		this.activeStatus = false;
@@ -458,6 +517,10 @@ public class Requirement extends AbstractModel {
 		return this.getName();
 	}
 
+	/**
+	 * Returns whether the requirement has been deleted.
+	 * @return delete status of the requirement.
+	 */
 	public boolean isDeleted() {
 		return !activeStatus;
 	}

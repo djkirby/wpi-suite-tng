@@ -1,13 +1,13 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -22,8 +22,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
  * @author Brian
  *
  */
-abstract public class RequirementPanel extends JPanel 
+abstract public class RequirementPanel extends JScrollPane 
 {
+	protected JPanel contentPanel;
 	protected JPanel leftPanel;
 	protected JTextField boxName;
 	protected JTextField boxReleaseNum;
@@ -170,6 +171,7 @@ abstract public class RequirementPanel extends JPanel
 		priorityMedium = new JRadioButton("Medium");
 		priorityLow = new JRadioButton("Low");
 		priorityBlank = new JRadioButton("Undecided");
+		priorityBlank.setSelected(true);
 		
 		group = new ButtonGroup();
 		group.add(priorityBlank);
@@ -251,4 +253,20 @@ abstract public class RequirementPanel extends JPanel
 		
 		return rightPanel;
 	}
+	
+	/**
+	 * Checks if the input string is an integer
+	 * @param input the string to test
+	 * @return true if input is an integer, false otherwise
+	 */
+	public boolean isInteger( String input ) {
+	    try {
+	        Integer.parseInt( input );
+	        return true;
+	    }
+	    catch( Exception e ) {
+	        return false;
+	    }
+	}
+
 }

@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.Requirements;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -27,16 +28,24 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventControlle
 //
 public class NewRequirementPanel extends RequirementPanel 
 {	
+	
 	/**
 	 * Constructor for a new requirement panel
 	 * @param reqModel Local requirement model for containing data
 	 */
 	public NewRequirementPanel() {
-		setLayout(new GridLayout(1, 3));
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new GridLayout(1, 3));
 
 
-		this.add(buildLeftPanel()); //add left panel
-		this.add(buildRightPanel()); //add right panel
+		contentPanel.add(buildLeftPanel()); //add left panel
+		contentPanel.add(buildRightPanel()); //add right panel
+		rightPanel.setMinimumSize(new Dimension(600,600));
+
+		JPanel dummyPanel = new JPanel();
+		contentPanel.add(dummyPanel);
+		
+		this.setViewportView(contentPanel);
 	}
 	
 	/**
@@ -56,6 +65,7 @@ public class NewRequirementPanel extends RequirementPanel
 		JButton buttonClear = new JButton("Clear");
 		
 		// Construct the add requirement controller and add it to the update button
+		//
 		buttonUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
@@ -172,7 +182,7 @@ public class NewRequirementPanel extends RequirementPanel
 		RequirementPriority priority;
 		RequirementStatus status;
 		RequirementType type;
-		int estimate = stringEstimate.trim().length() == 0 ? null : Integer.parseInt(stringEstimate);
+		int estimate = stringEstimate.trim().length() == 0 ? 0 : Integer.parseInt(stringEstimate);
 		
 		Iteration iteration = new Iteration(stringIteration);
 		
@@ -205,6 +215,8 @@ public class NewRequirementPanel extends RequirementPanel
 		newRequirement.setType(type);
 		newRequirement.setEstimate(estimate);
 		newRequirement.setIteration(iteration);
+		newRequirement.getHistory().add("REQUIREMENT CREATED");
+
 		RequirementModel.getInstance().addRequirement(newRequirement);
 		ViewEventController.getInstance().removeTab(this);
 	}
@@ -221,6 +233,8 @@ public class NewRequirementPanel extends RequirementPanel
 		boxReleaseNum.setText(null);
 		errorName.setText(null);
 		errorDescription.setText(null);
+		boxEstimate.setText(null);
+		errorEstimate.setText(null);
 		repaint(); //repaint the entire panel.
 	}
 	
@@ -231,16 +245,4 @@ public class NewRequirementPanel extends RequirementPanel
 	{
 		ViewEventController.getInstance().removeTab(this);
 	}
-	
-	public boolean isInteger( String input ) {
-	    try {
-	        Integer.parseInt( input );
-	        return true;
-	    }
-	    catch( Exception e ) {
-	        return false;
-	    }
-	}
-	
- 
 }

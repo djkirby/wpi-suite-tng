@@ -1,7 +1,5 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.overview;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
