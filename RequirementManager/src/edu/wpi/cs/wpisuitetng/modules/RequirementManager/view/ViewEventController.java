@@ -47,7 +47,7 @@ public class ViewEventController {
 
 	/**
 	 * Sets the main view to the given view.
-	 * @param main2 the main view to be set as active.
+	 * @param mainview the main view to be set as active.
 	 */
 	public void setMainView(MainView mainview) {
 		main = mainview;
@@ -55,7 +55,7 @@ public class ViewEventController {
 
 	/**
 	 * Sets the toolbarview to the given toolbar
-	 * @param tool2 the toolbar to be set as active.
+	 * @param toolbar the toolbar to be set as active.
 	 */
 	public void setToolBar(ToolbarView toolbar) {
 		this.toolbar = toolbar;

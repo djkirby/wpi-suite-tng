@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.Transaction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.models.characteristics.TransactionHistory;
+import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementManager.view.ViewEventController;
 /**
  * 
@@ -51,6 +52,7 @@ public class EditRequirementPanel extends RequirementPanel
 	private JButton buttonAddChild = new JButton("Add Child Requirement");
 	private JButton buttonClear = new JButton("Undo Changes");
 	private JButton buttonDelete = new JButton("Delete");
+	private MainView main = null;
 	
 	/**
 	 * Constructor for a new requirement panel
@@ -105,6 +107,25 @@ public class EditRequirementPanel extends RequirementPanel
 		this.setViewportView(contentPanel);
 		
 		fillFieldsForRequirement();
+	}
+	
+	/**
+	 * Sets the main view to the given view.
+	 * @param mainview the main view to be set as active.
+	 */
+	public void setMainView(MainView mainview) {
+		main = mainview;
+	}
+	
+	/**
+	 * Opens a new tab for the creation of a child requirement.
+	 */
+	public void createChildRequirement() {
+		NewRequirementPanel newReq = new NewRequirementPanel();
+		main.addTab("Create Requirement", newReq);
+		main.invalidate(); //force the tabbedpane to redraw.
+		main.repaint();
+		main.setSelectedComponent(newReq);
 	}
 	
 	/**
@@ -215,7 +236,7 @@ public class EditRequirementPanel extends RequirementPanel
 		buttonAddChild.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				createChildRequirement();
 			}
 		});
 		buttonPanel.add(getButtonUpdate());
