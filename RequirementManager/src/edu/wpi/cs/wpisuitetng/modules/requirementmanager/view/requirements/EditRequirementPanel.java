@@ -23,7 +23,6 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -66,6 +65,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	private JButton buttonDelete = new JButton("Delete");
 	private JScrollPane historyScrollPane = new JScrollPane();
 	private boolean readyToClose = false;
+	//private BuildNotePanel notes;
 
 	/**
 	 * Constructor for a new requirement panel
@@ -86,6 +86,7 @@ public class EditRequirementPanel extends RequirementPanel {
 
 		JTabbedPane tabs = new JTabbedPane();
 		JPanel notes = buildNotePanel();
+		//notes = new BuildNotePanel(req);
 		JPanel history = buildHistoryPanel();
 		JPanel tests = buildTestPanel();
 		tabs.add("Notes", notes);
@@ -367,11 +368,12 @@ public class EditRequirementPanel extends RequirementPanel {
 	}
 
 	/**
-	 * Constructs a panel with a scolling list of notes for the requirement, as
+	 * Constructs a panel with a scrolling list of notes for the requirement, as
 	 * well as the elements to add new notes
 	 * 
 	 * @return panel for displaying and creating notes
 	 */
+	
 	private JPanel buildNotePanel() {
 		// Buttons to be added to the bottom of the NotePanel
 		JButton buttonAddNote = new JButton("Add Note");
@@ -379,7 +381,7 @@ public class EditRequirementPanel extends RequirementPanel {
 
 		// Create text area for note to be added
 		final JTextArea noteMessage = new JTextArea();
-		noteMessage.setLineWrap(true); // If right of box is reach, goes down a
+		noteMessage.setLineWrap(true); // If right of box is reached, goes down a
 										// line
 		noteMessage.setWrapStyleWord(true); // Doesn't chop off words
 		
@@ -505,7 +507,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		// Error message field
 		final JLabel error = new JLabel("");
 
-		// Create new scroll pane for notes
+		// Create new scroll pane for tests
 		final JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		// Always show scroll bar
@@ -739,10 +741,13 @@ public class EditRequirementPanel extends RequirementPanel {
 		}
 		
 		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())));
+		//boolean noteChanged = (notes.getMessage().length() <= 0);
+		//boolean testNameChanged = (tests.testName.getText().length() <= 0);
+		//boolean testDescChanged = (tests.testMessage.getText().length() <= 0);
 
 		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged || iterationChanged || 
-				typeChanged || statusChanged || priorityChanged || estimateChanged;
-		
+				typeChanged || statusChanged || priorityChanged || estimateChanged; //|| noteChanged;
+		// || testNameChanged || testDescChanged;
 		return anythingChanged;
 	}
 

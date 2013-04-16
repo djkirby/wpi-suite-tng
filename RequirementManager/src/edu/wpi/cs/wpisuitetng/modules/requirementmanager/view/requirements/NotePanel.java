@@ -86,7 +86,7 @@ public class NotePanel extends JPanel {
 	
 	/**
 	 * Creates a panel containing all of the notes passed to it in the list
-	 * @param list List of note used to create panel
+	 * @param list List of notes used to create panel
 	 * @return Panel containing all of the notes given to the method
 	 */
 	public static JPanel createList(NoteList list)
@@ -109,7 +109,7 @@ public class NotePanel extends JPanel {
 		// Add each note to panel individually
 		while(itt.hasNext())
 		{
-			//Create a new NotePanel for each Note and add it to the panel
+			//Create a new NotePanel for each note and add it to the panel
 			panel.add(new NotePanel(itt.next()),c);
 			c.gridy++; //Next Row
 		}

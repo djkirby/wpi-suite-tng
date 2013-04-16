@@ -133,31 +133,31 @@ public class TestPanel extends JPanel
 	}
 	
 	/**
-	 * Creates a panel containing all of the notes passed to it in the list
-	 * @param list List of note used to create panel
-	 * @return Panel containing all of the notes given to the method
+	 * Creates a panel containing all of the tests passed to it in the list
+	 * @param list List of tests used to create panel
+	 * @return Panel containing all of the tests given to the method
 	 */
 	public static JPanel createList(Requirement req)
 	{
-		// Create a panel to hold all of the notes
+		// Create a panel to hold all of the tests
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE); // Background color is white
 		panel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints(); // Create layout for adding notes
+		GridBagConstraints c = new GridBagConstraints(); // Create layout for adding tests
 		c.gridy = GridBagConstraints.RELATIVE; // Make a new row and add it to it
 		c.anchor = GridBagConstraints.NORTH; // Anchor to top of panel
 		c.fill = GridBagConstraints.HORIZONTAL; // Fill elements horizontally
 		c.weightx = 1;//Fill horizontally
 		c.gridy = 0; //Row 0
-		c.insets = new Insets(5,5,5,5); // Creates margins between notes
+		c.insets = new Insets(5,5,5,5); // Creates margins between tests
 		
-		// Get iterator of the list of notes
+		// Get iterator of the list of tests
 		Iterator<AcceptanceTest> itt = req.getTests().iterator();
 		
-		// Add each note to panel individually
+		// Add each test to panel individually
 		while(itt.hasNext())
 		{
-			//Create a new NotePanel for each Note and add it to the panel
+			//Create a new TestPanel for each test and add it to the panel
 			panel.add(new TestPanel(req, itt.next()), c);
 			c.gridy++; //Next Row
 		}
