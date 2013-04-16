@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.
 
 public class BuildNotePanel extends JPanel{
 	Requirement req;
-	final JTextArea noteMessage;
+	JTextArea noteMessage;
 	/**
 	 * Constructs a panel with a scrolling list of notes for the requirement, as
 	 * well as the elements to add new notes
@@ -138,4 +138,5 @@ public class BuildNotePanel extends JPanel{
 	public String getMessage() {
 		return noteMessage.getText();
 	}
+	
 }

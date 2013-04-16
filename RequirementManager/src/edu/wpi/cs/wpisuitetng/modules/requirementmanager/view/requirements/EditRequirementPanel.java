@@ -210,6 +210,8 @@ public class EditRequirementPanel extends RequirementPanel {
 		if (!(getRequirementBeingEdited().getEstimate() > 0))
 			getBoxIteration().setEnabled(false);
 
+		// reset the notes panel
+		//this.notes = new BuildNotePanel(requirementBeingEdited);
 		// reset the error messages.
 		this.getErrorEstimate().setText("");
 		getBoxEstimate().setBorder(defaultBorder);
@@ -741,12 +743,12 @@ public class EditRequirementPanel extends RequirementPanel {
 		}
 		
 		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())));
-		//boolean noteChanged = (notes.getMessage().length() <= 0);
-		//boolean testNameChanged = (tests.testName.getText().length() <= 0);
-		//boolean testDescChanged = (tests.testMessage.getText().length() <= 0);
+		//boolean noteChanged = (this.notes.getMessage().length() > 0);
+		//boolean testNameChanged = (tests.testName.getText().length() > 0);
+		//boolean testDescChanged = (tests.testMessage.getText().length() > 0);
 
 		boolean anythingChanged = nameChanged || descriptionChanged || releaseChanged || iterationChanged || 
-				typeChanged || statusChanged || priorityChanged || estimateChanged; //|| noteChanged;
+				typeChanged || statusChanged || priorityChanged || estimateChanged;// || noteChanged;
 		// || testNameChanged || testDescChanged;
 		return anythingChanged;
 	}
