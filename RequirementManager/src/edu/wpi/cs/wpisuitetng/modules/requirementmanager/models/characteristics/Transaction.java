@@ -8,8 +8,6 @@
  * Contributors: Team Rolling Thunder
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics;
-
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 /**
  * Class for a single transaction
  * 
