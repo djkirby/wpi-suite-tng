@@ -9,9 +9,11 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.overview;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class OverviewPanel extends JPanel {
 	
@@ -30,6 +32,26 @@ public class OverviewPanel extends JPanel {
 		Object[][] data = {};
 		
 		OverviewTable table = new OverviewTable(data, columnNames);
+		DefaultTableCellRenderer centeredRenderer = new DefaultTableCellRenderer();
+		centeredRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		table.getColumnModel().getColumn(0).setMaxWidth(60);
+		
+		table.getColumnModel().getColumn(4).setMaxWidth(120);
+		table.getColumnModel().getColumn(4).setPreferredWidth(110);
+		table.getColumnModel().getColumn(4).setMinWidth(80);
+		table.getColumnModel().getColumn(4).setCellRenderer(centeredRenderer);
+		
+		table.getColumnModel().getColumn(5).setMaxWidth(120);
+		table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		table.getColumnModel().getColumn(5).setMinWidth(80);
+		table.getColumnModel().getColumn(5).setCellRenderer(centeredRenderer);
+		
+		table.getColumnModel().getColumn(6).setMaxWidth(120);
+		table.getColumnModel().getColumn(6).setPreferredWidth(100);
+		table.getColumnModel().getColumn(6).setMinWidth(80);
+		table.getColumnModel().getColumn(6).setCellRenderer(centeredRenderer);
+		
 		
 		JScrollPane tablePanel = new JScrollPane(table);
 		
