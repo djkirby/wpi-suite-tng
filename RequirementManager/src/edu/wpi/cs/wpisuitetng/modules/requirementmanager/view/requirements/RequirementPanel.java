@@ -241,7 +241,7 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		SpringLayout rightLayout = new SpringLayout();
 
 		rightPanel.setLayout(rightLayout);
-		getPriorityBlank().setSelected(true);
+		//getPriorityBlank().setSelected(true);
 
 		//setup the constraints for the layout.
 		

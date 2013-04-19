@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team Rolling Thunder
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Color;
@@ -47,6 +56,7 @@ public class BuildNotePanel extends JPanel{
 		noteMessage.setLineWrap(true); // If right of box is reached, goes down a
 										// line
 		noteMessage.setWrapStyleWord(true); // Doesn't chop off words
+		noteMessage.setText("");
 				
 		// Error message label in case no note was included
 		final JLabel errorMsg = new JLabel();
