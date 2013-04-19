@@ -65,7 +65,7 @@ public class EditRequirementPanel extends RequirementPanel {
 	private JButton buttonDelete = new JButton("Delete");
 	private JScrollPane historyScrollPane = new JScrollPane();
 	private boolean readyToClose = false;
-	//private BuildNotePanel notes;
+	private BuildNotePanel notes;
 
 	/**
 	 * Constructor for a new requirement panel
@@ -83,15 +83,17 @@ public class EditRequirementPanel extends RequirementPanel {
 
 		JPanel left = buildLeftPanel();
 		JPanel right = buildRightPanel();
+		
 
 		JTabbedPane tabs = new JTabbedPane();
-		JPanel notes = buildNotePanel();
-		//notes = new BuildNotePanel(req);
+		//JPanel notes = buildNotePanel();
+		notes = new BuildNotePanel(req);
 		JPanel history = buildHistoryPanel();
 		JPanel tests = buildTestPanel();
 		tabs.add("Notes", notes);
 		tabs.add("Transaction History", history);
 		tabs.add("Acceptance Tests", tests);
+		getPriorityBlank().setSelected(true);
 
 		JPanel bottom = buildBottom();
 		c.gridx = 0; // Column 0
@@ -211,7 +213,7 @@ public class EditRequirementPanel extends RequirementPanel {
 			getBoxIteration().setEnabled(false);
 
 		// reset the notes panel
-		//this.notes = new BuildNotePanel(requirementBeingEdited);
+		this.notes = new BuildNotePanel(requirementBeingEdited);
 		// reset the error messages.
 		this.getErrorEstimate().setText("");
 		getBoxEstimate().setBorder(defaultBorder);
@@ -743,7 +745,7 @@ public class EditRequirementPanel extends RequirementPanel {
 		}
 		
 		boolean estimateChanged = !(getBoxEstimate().getText().trim().equals(String.valueOf(requirementBeingEdited.getEstimate())));
-		//boolean noteChanged = (this.notes.getMessage().length() > 0);
+		boolean noteChanged = (this.notes.getMessage().length() > 0);
 		//boolean testNameChanged = (tests.testName.getText().length() > 0);
 		//boolean testDescChanged = (tests.testMessage.getText().length() > 0);
 
