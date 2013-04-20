@@ -11,13 +11,17 @@ package edu.wpi.cs.wpisuitetng.modules.requirementmanager.view.requirements;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.util.LinkedList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.controller.UpdateRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.characteristics.RequirementStatus;
@@ -291,8 +296,42 @@ abstract public class RequirementPanel extends JScrollPane implements KeyListene
 		
 		if(this.displayRequirement.getParentID()!=-1)
 		{
-			JLabel parent = new JLabel("Child of \""+displayRequirement.getParent().getName()+"\"");
+			final JLabel parent = new JLabel("Child of \""+displayRequirement.getParent().getName()+"\"");
 			rightPanel.add(parent);
+			
+			final JButton closeButton = new JButton("\u2716");
+			closeButton.setFont(closeButton.getFont().deriveFont((float) 8));
+			closeButton.setMargin(new Insets(0, 0, 0, 0));
+			closeButton.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					
+					int result = JOptionPane.showConfirmDialog(rightPanel.getParent(),
+						    "Are you sure you would like to disconnect this requirement from it's parent?",
+						    "Confirm remove parent?",
+						    JOptionPane.YES_NO_OPTION);
+					if (result == JOptionPane.YES_OPTION){
+						displayRequirement.setParentID(-1);
+						System.out.println("Parent set to "+displayRequirement.getParentID());
+						UpdateRequirementController.getInstance().updateRequirement(
+								displayRequirement);
+						rightPanel.remove(parent);
+						rightPanel.remove(closeButton);
+						
+						rightPanel.repaint();
+					}
+				}});
+			rightPanel.add(closeButton);
+			
+			rightLayout.putConstraint(SpringLayout.NORTH, parent, 5,
+					SpringLayout.SOUTH, getErrorEstimate());
+			rightLayout.putConstraint(SpringLayout.WEST, parent, 15,
+					SpringLayout.WEST, rightPanel);
+			rightLayout.putConstraint(SpringLayout.NORTH, closeButton, 5,
+					SpringLayout.SOUTH, getErrorEstimate());
+			rightLayout.putConstraint(SpringLayout.WEST, closeButton, 5,
+					SpringLayout.EAST, parent);
 		}
 
 		rightPanel.add(labelType);
